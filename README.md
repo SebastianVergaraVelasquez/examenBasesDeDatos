@@ -12487,177 +12487,73 @@ JOIN almacen AS a ON a.id_almacen = i.id_almacen;
 8. Obtener una lista de pagos realizados, incluyendo el cliente, el empleado que registró el pago y el alquiler correspondiente.
 
    ```
-   SELECT p.id_pago AS pago, c.nombre, c.apellidos, e.nombre, e.apellidos, al.fecha_alquiler as Fecha_alquiler
+   SELECT p.id_pago AS pago, c.nombre AS nombre_cliente, c.apellidos AS apellidos_cliente, e.nombre AS nombre_empleado, e.apellidos AS apellidos_empleado, al.id_alquiler, al.fecha_alquiler AS Fecha_alquiler
    FROM pago AS p
    JOIN alquiler AS al ON p.id_alquiler = al.id_alquiler
    JOIN cliente AS c ON c.id_cliente = al.id_cliente
    JOIN empleado AS e ON al.id_empleado = e.id_empleado;
-   +------+--------      +-----------   +--------+-----------+---------------------+
-   | pago | nombre       | apellidos    | nombre | apellidos | Fecha_alquiler      |
-   +------+--------      +-----------   +--------+-----------+---------------------+
-   |    1 | MARY         | SMITH        | Jon    | Stephens  | 2005-05-25 11:30:37 |
-   +------+--------      +-----------   +--------+-----------+---------------------+
-   | 15891 | RENE        | MCALISTER    | Jon    | Stephens  | 2005-08-01 06:13:38 |
-   | 15892 | RENE        | MCALISTER    | Jon    | Stephens  | 2005-08-01 12:14:16 |
-   | 15893 | RENE        | MCALISTER    | Jon    | Stephens  | 2005-08-01 23:38:34 |
-   | 15894 | RENE        | MCALISTER    | Mike   | Hillyer   | 2005-08-02 01:43:02 |
-   | 15895 | RENE        | MCALISTER    | Mike   | Hillyer   | 2005-08-18 22:22:36 |
-   | 15896 | RENE        | MCALISTER    | Jon    | Stephens  | 2005-08-20 02:48:43 |
-   | 15897 | RENE        | MCALISTER    | Mike   | Hillyer   | 2005-08-21 10:47:24 |
-   | 15898 | RENE        | MCALISTER    | Mike   | Hillyer   | 2005-08-21 19:35:59 |
-   | 15899 | EDUARDO     | HIATT        | Jon    | Stephens  | 2005-05-26 22:56:19 |
-   | 15900 | EDUARDO     | HIATT        | Mike   | Hillyer   | 2005-05-27 06:51:14 |
-   | 15901 | EDUARDO     | HIATT        | Jon    | Stephens  | 2005-05-31 02:53:42 |
-   | 15902 | EDUARDO     | HIATT        | Mike   | Hillyer   | 2005-05-31 06:29:01 |
-   | 15903 | EDUARDO     | HIATT        | Jon    | Stephens  | 2005-06-16 00:52:51 |
-   | 15904 | EDUARDO     | HIATT        | Mike   | Hillyer   | 2005-06-16 21:20:41 |
-   | 15905 | EDUARDO     | HIATT        | Jon    | Stephens  | 2005-06-17 08:26:52 |
-   | 15906 | EDUARDO     | HIATT        | Jon    | Stephens  | 2005-06-18 06:33:48 |
-   | 15907 | EDUARDO     | HIATT        | Mike   | Hillyer   | 2005-06-19 18:46:43 |
-   | 15908 | EDUARDO     | HIATT        | Mike   | Hillyer   | 2005-06-21 07:33:40 |
-   | 15909 | EDUARDO     | HIATT        | Mike   | Hillyer   | 2005-07-05 22:59:53 |
-   | 15910 | EDUARDO     | HIATT        | Mike   | Hillyer   | 2005-07-06 02:17:54 |
-   | 15911 | EDUARDO     | HIATT        | Jon    | Stephens  | 2005-07-06 22:08:53 |
-   | 15912 | EDUARDO     | HIATT        | Mike   | Hillyer   | 2005-07-07 02:52:52 |
-   | 15913 | EDUARDO     | HIATT        | Jon    | Stephens  | 2005-07-07 08:58:23 |
-   | 15914 | EDUARDO     | HIATT        | Jon    | Stephens  | 2005-07-09 19:19:09 |
-   | 15915 | EDUARDO     | HIATT        | Mike   | Hillyer   | 2005-07-12 01:35:40 |
-   | 15916 | EDUARDO     | HIATT        | Jon    | Stephens  | 2005-07-27 21:24:33 |
-   | 15917 | EDUARDO     | HIATT        | Jon    | Stephens  | 2005-07-29 11:37:30 |
-   | 15918 | EDUARDO     | HIATT        | Jon    | Stephens  | 2005-07-29 13:07:07 |
-   | 15919 | EDUARDO     | HIATT        | Jon    | Stephens  | 2005-07-29 22:14:56 |
-   | 15920 | EDUARDO     | HIATT        | Mike   | Hillyer   | 2005-07-31 01:46:24 |
-   | 15921 | EDUARDO     | HIATT        | Jon    | Stephens  | 2005-07-31 07:24:35 |
-   | 15922 | EDUARDO     | HIATT        | Mike   | Hillyer   | 2005-07-31 11:04:20 |
-   | 15923 | EDUARDO     | HIATT        | Mike   | Hillyer   | 2005-08-01 18:38:02 |
-   | 15924 | EDUARDO     | HIATT        | Jon    | Stephens  | 2005-08-22 01:27:51 |
-   | 15925 | EDUARDO     | HIATT        | Mike   | Hillyer   | 2005-08-22 07:54:47 |
-   | 15926 | TERRENCE    | GUNDERSON    | Mike   | Hillyer   | 2005-05-28 15:27:22 |
-   | 15927 | TERRENCE    | GUNDERSON    | Jon    | Stephens  | 2005-06-14 23:47:35 |
-   | 15928 | TERRENCE    | GUNDERSON    | Jon    | Stephens  | 2005-06-21 13:27:22 |
-   | 15929 | TERRENCE    | GUNDERSON    | Mike   | Hillyer   | 2005-07-06 14:02:26 |
-   | 15930 | TERRENCE    | GUNDERSON    | Jon    | Stephens  | 2005-07-07 01:08:18 |
-   | 15931 | TERRENCE    | GUNDERSON    | Jon    | Stephens  | 2005-07-07 13:39:00 |
-   | 15932 | TERRENCE    | GUNDERSON    | Jon    | Stephens  | 2005-07-08 15:44:05 |
-   | 15933 | TERRENCE    | GUNDERSON    | Jon    | Stephens  | 2005-07-10 06:15:45 |
-   | 15934 | TERRENCE    | GUNDERSON    | Mike   | Hillyer   | 2005-07-10 23:18:20 |
-   | 15935 | TERRENCE    | GUNDERSON    | Mike   | Hillyer   | 2005-07-11 07:03:19 |
-   | 15936 | TERRENCE    | GUNDERSON    | Jon    | Stephens  | 2005-07-12 12:50:24 |
-   | 15937 | TERRENCE    | GUNDERSON    | Jon    | Stephens  | 2005-07-27 04:39:46 |
-   | 15938 | TERRENCE    | GUNDERSON    | Mike   | Hillyer   | 2005-07-27 12:59:10 |
-   | 15939 | TERRENCE    | GUNDERSON    | Jon    | Stephens  | 2005-07-27 16:03:53 |
-   | 15940 | TERRENCE    | GUNDERSON    | Mike   | Hillyer   | 2005-07-27 19:48:12 |
-   | 15941 | TERRENCE    | GUNDERSON    | Jon    | Stephens  | 2005-07-30 10:51:27 |
-   | 15942 | TERRENCE    | GUNDERSON    | Mike   | Hillyer   | 2005-07-30 13:23:20 |
-   | 15943 | TERRENCE    | GUNDERSON    | Jon    | Stephens  | 2005-07-30 18:32:51 |
-   | 15944 | TERRENCE    | GUNDERSON    | Mike   | Hillyer   | 2005-07-30 23:56:54 |
-   | 15945 | TERRENCE    | GUNDERSON    | Jon    | Stephens  | 2005-07-31 01:41:48 |
-   | 15946 | TERRENCE    | GUNDERSON    | Jon    | Stephens  | 2005-07-31 05:02:00 |
-   | 15947 | TERRENCE    | GUNDERSON    | Mike   | Hillyer   | 2005-07-31 11:51:46 |
-   | 15948 | TERRENCE    | GUNDERSON    | Jon    | Stephens  | 2005-08-01 19:21:11 |
-   | 15949 | TERRENCE    | GUNDERSON    | Jon    | Stephens  | 2005-08-02 02:46:22 |
-   | 15950 | TERRENCE    | GUNDERSON    | Jon    | Stephens  | 2005-08-17 09:04:02 |
-   | 15951 | TERRENCE    | GUNDERSON    | Mike   | Hillyer   | 2005-08-18 03:17:50 |
-   | 15952 | TERRENCE    | GUNDERSON    | Jon    | Stephens  | 2005-08-21 08:32:32 |
-   | 15953 | TERRENCE    | GUNDERSON    | Mike   | Hillyer   | 2005-08-23 05:32:03 |
-   | 15954 | TERRENCE    | GUNDERSON    | Jon    | Stephens  | 2005-08-23 20:29:10 |
-   | 15955 | TERRENCE    | GUNDERSON    | Jon    | Stephens  | 2005-08-23 21:26:35 |
-   | 15956 | ENRIQUE     | FORSYTHE     | Jon    | Stephens  | 2005-05-26 21:16:52 |
-   | 15957 | ENRIQUE     | FORSYTHE     | Mike   | Hillyer   | 2005-05-28 16:35:46 |
-   | 15958 | ENRIQUE     | FORSYTHE     | Mike   | Hillyer   | 2005-05-28 21:49:02 |
-   | 15959 | ENRIQUE     | FORSYTHE     | Jon    | Stephens  | 2005-05-29 14:38:57 |
-   | 15960 | ENRIQUE     | FORSYTHE     | Jon    | Stephens  | 2005-05-30 11:06:00 |
-   | 15961 | ENRIQUE     | FORSYTHE     | Jon    | Stephens  | 2005-05-30 20:28:42 |
-   | 15962 | ENRIQUE     | FORSYTHE     | Mike   | Hillyer   | 2005-06-16 08:58:18 |
-   | 15963 | ENRIQUE     | FORSYTHE     | Mike   | Hillyer   | 2005-06-19 17:46:35 |
-   | 15964 | ENRIQUE     | FORSYTHE     | Jon    | Stephens  | 2005-07-10 11:56:18 |
-   | 15965 | ENRIQUE     | FORSYTHE     | Jon    | Stephens  | 2005-07-11 02:04:12 |
-   | 15966 | ENRIQUE     | FORSYTHE     | Mike   | Hillyer   | 2005-07-11 02:05:32 |
-   | 15967 | ENRIQUE     | FORSYTHE     | Mike   | Hillyer   | 2005-07-11 12:09:51 |
-   | 15968 | ENRIQUE     | FORSYTHE     | Jon    | Stephens  | 2005-07-12 20:50:48 |
-   | 15969 | ENRIQUE     | FORSYTHE     | Jon    | Stephens  | 2005-07-31 20:31:18 |
-   | 15970 | ENRIQUE     | FORSYTHE     | Mike   | Hillyer   | 2005-08-01 18:12:35 |
-   | 15971 | ENRIQUE     | FORSYTHE     | Jon    | Stephens  | 2005-08-01 20:17:03 |
-   | 15972 | ENRIQUE     | FORSYTHE     | Jon    | Stephens  | 2005-08-01 22:22:11 |
-   | 15973 | ENRIQUE     | FORSYTHE     | Mike   | Hillyer   | 2005-08-02 05:06:23 |
-   | 15974 | ENRIQUE     | FORSYTHE     | Mike   | Hillyer   | 2005-08-17 13:38:27 |
-   | 15975 | ENRIQUE     | FORSYTHE     | Jon    | Stephens  | 2005-08-17 16:40:00 |
-   | 15976 | ENRIQUE     | FORSYTHE     | Mike   | Hillyer   | 2005-08-18 14:54:19 |
-   | 15977 | ENRIQUE     | FORSYTHE     | Mike   | Hillyer   | 2005-08-19 03:17:08 |
-   | 15978 | ENRIQUE     | FORSYTHE     | Jon    | Stephens  | 2005-08-20 07:48:10 |
-   | 15979 | ENRIQUE     | FORSYTHE     | Jon    | Stephens  | 2005-08-20 22:09:04 |
-   | 15980 | ENRIQUE     | FORSYTHE     | Mike   | Hillyer   | 2005-08-21 11:13:35 |
-   | 15981 | ENRIQUE     | FORSYTHE     | Mike   | Hillyer   | 2005-08-22 23:20:41 |
-   | 15983 | ENRIQUE     | FORSYTHE     | Mike   | Hillyer   | 2006-02-14 15:16:03 |
-   | 15982 | ENRIQUE     | FORSYTHE     | Jon    | Stephens  | 2005-08-23 17:16:28 |
-   | 15984 | FREDDIE     | DUGGAN       | Jon    | Stephens  | 2005-05-25 04:19:28 |
-   | 15985 | FREDDIE     | DUGGAN       | Jon    | Stephens  | 2005-05-28 03:09:28 |
-   | 15986 | FREDDIE     | DUGGAN       | Jon    | Stephens  | 2005-06-18 14:59:39 |
-   | 15987 | FREDDIE     | DUGGAN       | Jon    | Stephens  | 2005-06-19 13:28:42 |
-   | 15988 | FREDDIE     | DUGGAN       | Mike   | Hillyer   | 2005-06-21 00:30:26 |
-   | 15989 | FREDDIE     | DUGGAN       | Jon    | Stephens  | 2005-07-09 05:59:12 |
-   | 15990 | FREDDIE     | DUGGAN       | Jon    | Stephens  | 2005-07-09 17:34:11 |
-   | 15991 | FREDDIE     | DUGGAN       | Jon    | Stephens  | 2005-07-10 11:36:32 |
-   | 15992 | FREDDIE     | DUGGAN       | Jon    | Stephens  | 2005-07-12 03:34:50 |
-   | 15993 | FREDDIE     | DUGGAN       | Mike   | Hillyer   | 2005-07-28 13:57:35 |
-   | 15994 | FREDDIE     | DUGGAN       | Mike   | Hillyer   | 2005-07-30 03:16:18 |
-   | 15995 | FREDDIE     | DUGGAN       | Mike   | Hillyer   | 2005-07-31 18:24:39 |
-   | 15996 | FREDDIE     | DUGGAN       | Jon    | Stephens  | 2005-08-01 01:04:15 |
-   | 15997 | FREDDIE     | DUGGAN       | Jon    | Stephens  | 2005-08-02 04:35:24 |
-   | 15998 | FREDDIE     | DUGGAN       | Mike   | Hillyer   | 2005-08-02 09:45:54 |
-   | 15999 | FREDDIE     | DUGGAN       | Mike   | Hillyer   | 2005-08-02 12:34:27 |
-   | 16000 | FREDDIE     | DUGGAN       | Mike   | Hillyer   | 2005-08-02 13:28:30 |
-   | 16008 | FREDDIE     | DUGGAN       | Jon    | Stephens  | 2006-02-14 15:16:03 |
-   | 16001 | FREDDIE     | DUGGAN       | Jon    | Stephens  | 2005-08-17 14:28:28 |
-   | 16002 | FREDDIE     | DUGGAN       | Mike   | Hillyer   | 2005-08-17 22:10:46 |
-   | 16003 | FREDDIE     | DUGGAN       | Jon    | Stephens  | 2005-08-19 07:23:06 |
-   | 16004 | FREDDIE     | DUGGAN       | Jon    | Stephens  | 2005-08-19 08:07:43 |
-   | 16005 | FREDDIE     | DUGGAN       | Mike   | Hillyer   | 2005-08-19 13:09:32 |
-   | 16006 | FREDDIE     | DUGGAN       | Jon    | Stephens  | 2005-08-22 18:57:39 |
-   | 16007 | FREDDIE     | DUGGAN       | Mike   | Hillyer   | 2005-08-23 01:29:59 |
-   | 16009 | WADE        | DELVALLE     | Jon    | Stephens  | 2005-06-20 10:10:29 |
-   | 16010 | WADE        | DELVALLE     | Jon    | Stephens  | 2005-07-06 07:30:41 |
-   | 16011 | WADE        | DELVALLE     | Mike   | Hillyer   | 2005-07-06 21:48:44 |
-   | 16012 | WADE        | DELVALLE     | Mike   | Hillyer   | 2005-07-06 22:53:57 |
-   | 16013 | WADE        | DELVALLE     | Mike   | Hillyer   | 2005-07-07 10:27:54 |
-   | 16014 | WADE        | DELVALLE     | Mike   | Hillyer   | 2005-07-10 09:16:08 |
-   | 16015 | WADE        | DELVALLE     | Mike   | Hillyer   | 2005-07-12 04:00:36 |
-   | 16016 | WADE        | DELVALLE     | Jon    | Stephens  | 2005-07-12 04:29:44 |
-   | 16017 | WADE        | DELVALLE     | Jon    | Stephens  | 2005-07-12 06:12:53 |
-   | 16018 | WADE        | DELVALLE     | Jon    | Stephens  | 2005-07-12 11:20:12 |
-   | 16019 | WADE        | DELVALLE     | Jon    | Stephens  | 2005-07-27 08:57:40 |
-   | 16020 | WADE        | DELVALLE     | Jon    | Stephens  | 2005-07-27 14:42:11 |
-   | 16021 | WADE        | DELVALLE     | Jon    | Stephens  | 2005-07-28 15:08:48 |
-   | 16022 | WADE        | DELVALLE     | Jon    | Stephens  | 2005-07-29 07:21:20 |
-   | 16023 | WADE        | DELVALLE     | Jon    | Stephens  | 2005-07-29 09:42:42 |
-   | 16024 | WADE        | DELVALLE     | Mike   | Hillyer   | 2005-07-30 02:56:53 |
-   | 16025 | WADE        | DELVALLE     | Mike   | Hillyer   | 2005-07-31 19:15:52 |
-   | 16026 | WADE        | DELVALLE     | Jon    | Stephens  | 2005-08-02 17:22:59 |
-   | 16027 | WADE        | DELVALLE     | Mike   | Hillyer   | 2005-08-18 16:47:52 |
-   | 16028 | WADE        | DELVALLE     | Mike   | Hillyer   | 2005-08-21 08:41:15 |
-   | 16029 | WADE        | DELVALLE     | Jon    | Stephens  | 2005-08-22 19:54:26 |
-   | 16030 | WADE        | DELVALLE     | Jon    | Stephens  | 2005-08-23 00:44:15 |
-   | 16031 | AUSTIN      | CINTRON      | Jon    | Stephens  | 2005-05-31 01:18:56 |
-   | 16032 | AUSTIN      | CINTRON      | Mike   | Hillyer   | 2005-06-18 06:29:53 |
-   | 16033 | AUSTIN      | CINTRON      | Jon    | Stephens  | 2005-06-20 12:38:35 |
-   | 16034 | AUSTIN      | CINTRON      | Mike   | Hillyer   | 2005-06-21 15:34:38 |
-   | 16035 | AUSTIN      | CINTRON      | Mike   | Hillyer   | 2005-06-21 18:46:05 |
-   | 16036 | AUSTIN      | CINTRON      | Mike   | Hillyer   | 2005-07-09 04:42:00 |
-   | 16037 | AUSTIN      | CINTRON      | Jon    | Stephens  | 2005-07-10 17:14:27 |
-   | 16038 | AUSTIN      | CINTRON      | Jon    | Stephens  | 2005-07-12 17:03:56 |
-   | 16039 | AUSTIN      | CINTRON      | Jon    | Stephens  | 2005-07-12 21:23:59 |
-   | 16040 | AUSTIN      | CINTRON      | Jon    | Stephens  | 2005-07-30 03:52:37 |
-   | 16041 | AUSTIN      | CINTRON      | Jon    | Stephens  | 2005-07-31 04:57:07 |
-   | 16042 | AUSTIN      | CINTRON      | Mike   | Hillyer   | 2005-07-31 06:41:19 |
-   | 16043 | AUSTIN      | CINTRON      | Mike   | Hillyer   | 2005-08-17 00:05:05 |
-   | 16044 | AUSTIN      | CINTRON      | Mike   | Hillyer   | 2005-08-21 05:07:08 |
-   | 16045 | AUSTIN      | CINTRON      | Mike   | Hillyer   | 2005-08-21 17:43:42 |
-   | 16046 | AUSTIN      | CINTRON      | Mike   | Hillyer   | 2005-08-21 21:41:57 |
-   | 16047 | AUSTIN      | CINTRON      | Jon    | Stephens  | 2005-08-23 06:09:44 |
-   | 16048 | AUSTIN      | CINTRON      | Mike   | Hillyer   | 2005-08-23 11:08:46 |
-   | 16049 | AUSTIN      | CINTRON      | Mike   | Hillyer   | 2005-08-23 11:25:00 |
-   +-------+-------------+--------------+--------+-----------+---------------------+
-   16044 rows in set (0,07 sec)
+   
+   +------+----------------+-------------------+-----------------+--------------------+-------------+---------------------+
+   | pago | nombre_cliente | apellidos_cliente | nombre_empleado | apellidos_empleado | id_alquiler | Fecha_alquiler      |
+   +------+----------------+-------------------+-----------------+--------------------+-------------+---------------------+
+   |    1 | MARY           | SMITH             | Jon             | Stephens           |          76 | 2005-05-25 11:30:37 |
+   +------+----------------+-------------------+-----------------+--------------------+-------------+---------------------+
+   | 15997 | FREDDIE        | DUGGAN            | Jon             | Stephens           |       10986 | 2005-08-02 04:35:24 |
+   | 15998 | FREDDIE        | DUGGAN            | Mike            | Hillyer            |       11147 | 2005-08-02 09:45:54 |
+   | 15999 | FREDDIE        | DUGGAN            | Mike            | Hillyer            |       11223 | 2005-08-02 12:34:27 |
+   | 16000 | FREDDIE        | DUGGAN            | Mike            | Hillyer            |       11240 | 2005-08-02 13:28:30 |
+   | 16008 | FREDDIE        | DUGGAN            | Jon             | Stephens           |       11652 | 2006-02-14 15:16:03 |
+   | 16001 | FREDDIE        | DUGGAN            | Jon             | Stephens           |       11880 | 2005-08-17 14:28:28 |
+   | 16002 | FREDDIE        | DUGGAN            | Mike            | Hillyer            |       12081 | 2005-08-17 22:10:46 |
+   | 16003 | FREDDIE        | DUGGAN            | Jon             | Stephens           |       12992 | 2005-08-19 07:23:06 |
+   | 16004 | FREDDIE        | DUGGAN            | Jon             | Stephens           |       13019 | 2005-08-19 08:07:43 |
+   | 16005 | FREDDIE        | DUGGAN            | Mike            | Hillyer            |       13152 | 2005-08-19 13:09:32 |
+   | 16006 | FREDDIE        | DUGGAN            | Jon             | Stephens           |       15275 | 2005-08-22 18:57:39 |
+   | 16007 | FREDDIE        | DUGGAN            | Mike            | Hillyer            |       15469 | 2005-08-23 01:29:59 |
+   | 16009 | WADE           | DELVALLE          | Jon             | Stephens           |        3005 | 2005-06-20 10:10:29 |
+   | 16010 | WADE           | DELVALLE          | Jon             | Stephens           |        3648 | 2005-07-06 07:30:41 |
+   | 16011 | WADE           | DELVALLE          | Mike            | Hillyer            |        3950 | 2005-07-06 21:48:44 |
+   | 16012 | WADE           | DELVALLE          | Mike            | Hillyer            |        3972 | 2005-07-06 22:53:57 |
+   | 16013 | WADE           | DELVALLE          | Mike            | Hillyer            |        4181 | 2005-07-07 10:27:54 |
+   | 16014 | WADE           | DELVALLE          | Mike            | Hillyer            |        5688 | 2005-07-10 09:16:08 |
+   | 16015 | WADE           | DELVALLE          | Mike            | Hillyer            |        6519 | 2005-07-12 04:00:36 |
+   | 16016 | WADE           | DELVALLE          | Jon             | Stephens           |        6528 | 2005-07-12 04:29:44 |
+   | 16017 | WADE           | DELVALLE          | Jon             | Stephens           |        6575 | 2005-07-12 06:12:53 |
+   | 16018 | WADE           | DELVALLE          | Jon             | Stephens           |        6660 | 2005-07-12 11:20:12 |
+   | 16019 | WADE           | DELVALLE          | Jon             | Stephens           |        7201 | 2005-07-27 08:57:40 |
+   | 16020 | WADE           | DELVALLE          | Jon             | Stephens           |        7354 | 2005-07-27 14:42:11 |
+   | 16021 | WADE           | DELVALLE          | Jon             | Stephens           |        7998 | 2005-07-28 15:08:48 |
+   | 16022 | WADE           | DELVALLE          | Jon             | Stephens           |        8436 | 2005-07-29 07:21:20 |
+   | 16023 | WADE           | DELVALLE          | Jon             | Stephens           |        8511 | 2005-07-29 09:42:42 |
+   | 16024 | WADE           | DELVALLE          | Mike            | Hillyer            |        8939 | 2005-07-30 02:56:53 |
+   | 16025 | WADE           | DELVALLE          | Mike            | Hillyer            |       10054 | 2005-07-31 19:15:52 |
+   | 16026 | WADE           | DELVALLE          | Jon             | Stephens           |       11350 | 2005-08-02 17:22:59 |
+   | 16027 | WADE           | DELVALLE          | Mike            | Hillyer            |       12601 | 2005-08-18 16:47:52 |
+   | 16028 | WADE           | DELVALLE          | Mike            | Hillyer            |       14345 | 2005-08-21 08:41:15 |
+   | 16029 | WADE           | DELVALLE          | Jon             | Stephens           |       15307 | 2005-08-22 19:54:26 |
+   | 16030 | WADE           | DELVALLE          | Jon             | Stephens           |       15443 | 2005-08-23 00:44:15 |
+   | 16031 | AUSTIN         | CINTRON           | Jon             | Stephens           |        1008 | 2005-05-31 01:18:56 |
+   | 16032 | AUSTIN         | CINTRON           | Mike            | Hillyer            |        2272 | 2005-06-18 06:29:53 |
+   | 16033 | AUSTIN         | CINTRON           | Jon             | Stephens           |        3043 | 2005-06-20 12:38:35 |
+   | 16034 | AUSTIN         | CINTRON           | Mike            | Hillyer            |        3398 | 2005-06-21 15:34:38 |
+   | 16035 | AUSTIN         | CINTRON           | Mike            | Hillyer            |        3429 | 2005-06-21 18:46:05 |
+   | 16036 | AUSTIN         | CINTRON           | Mike            | Hillyer            |        5065 | 2005-07-09 04:42:00 |
+   | 16037 | AUSTIN         | CINTRON           | Jon             | Stephens           |        5843 | 2005-07-10 17:14:27 |
+   | 16038 | AUSTIN         | CINTRON           | Jon             | Stephens           |        6800 | 2005-07-12 17:03:56 |
+   | 16039 | AUSTIN         | CINTRON           | Jon             | Stephens           |        6895 | 2005-07-12 21:23:59 |
+   | 16040 | AUSTIN         | CINTRON           | Jon             | Stephens           |        8965 | 2005-07-30 03:52:37 |
+   | 16041 | AUSTIN         | CINTRON           | Jon             | Stephens           |        9630 | 2005-07-31 04:57:07 |
+   | 16042 | AUSTIN         | CINTRON           | Mike            | Hillyer            |        9679 | 2005-07-31 06:41:19 |
+   | 16043 | AUSTIN         | CINTRON           | Mike            | Hillyer            |       11522 | 2005-08-17 00:05:05 |
+   | 16044 | AUSTIN         | CINTRON           | Mike            | Hillyer            |       14233 | 2005-08-21 05:07:08 |
+   | 16045 | AUSTIN         | CINTRON           | Mike            | Hillyer            |       14599 | 2005-08-21 17:43:42 |
+   | 16046 | AUSTIN         | CINTRON           | Mike            | Hillyer            |       14719 | 2005-08-21 21:41:57 |
+   | 16047 | AUSTIN         | CINTRON           | Jon             | Stephens           |       15590 | 2005-08-23 06:09:44 |
+   | 16048 | AUSTIN         | CINTRON           | Mike            | Hillyer            |       15719 | 2005-08-23 11:08:46 |
+   | 16049 | AUSTIN         | CINTRON           | Mike            | Hillyer            |       15725 | 2005-08-23 11:25:00 |
+   +-------+----------------+-------------------+-----------------+--------------------+-------------+---------------------+
+   16044 rows in set (0,08 sec)
+   
    
    
    ```
