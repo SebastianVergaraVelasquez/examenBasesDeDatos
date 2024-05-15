@@ -13679,106 +13679,116 @@ JOIN almacen AS a ON a.id_almacen = i.id_almacen;
           SELECT e.nombre, e.apellidos, d.direccion AS almacen, c.nombre AS Ciudad
           FROM empleado as e
           LEFT JOIN almacen AS a on a.id_empleado_jefe = e.id_empleado
+          LEFT JOIN direccion AS d on d.id_direccion = a.id_direccion
+          LEFT JOIN ciudad AS c on c.id_ciudad = d.id_ciudad
+          WHERE a.id_almacen IS NULL
+          UNION 
+          SELECT e.nombre, e.apellidos, d.direccion AS almacen, c.nombre AS Ciudad
+          FROM empleado as e
+          JOIN almacen AS a on a.id_empleado_jefe = e.id_empleado
           JOIN direccion AS d on d.id_direccion = a.id_direccion
-          JOIN ciudad AS c on c.id_ciudad = d.id_ciudad
-          WHERE a.id_almacen is null;
+          JOIN ciudad AS c on c.id_ciudad = d.id_ciudad;
           
           +--------+-----------+--------------------+------------+
           | nombre | apellidos | almacen            | Ciudad     |
           +--------+-----------+--------------------+------------+
+          | Mike   | Hillyer   | NULL               | NULL       |
+          | Pepe   | Spilberg  | NULL               | NULL       |
+          | Ada    | Byron     | NULL               | NULL       |
           | Ringo  | Rooksby   | 47 MySakila Drive  | Lethbridge |
           | Jon    | Stephens  | 28 MySQL Boulevard | Woodridge  |
           +--------+-----------+--------------------+------------+
           
           ```
-
+          
           
 
-11. Obtener los títulos de las películas que nunca han sido alquiladas.
+   11. Obtener los títulos de las películas que nunca han sido alquiladas.
 
-    ```
-    SELECT p.id_pelicula, p.titulo AS pelicula, i.id_inventario, a.id_alquiler
-    FROM pelicula AS p
-    LEFT JOIN inventario AS i ON i.id_pelicula = p.id_pelicula
-    LEFT JOIN alquiler AS a ON a.id_inventario = i.id_inventario
-    WHERE a.id_inventario IS NULL;
-    
-    +-------------+------------------------+---------------+-------------+
-    | id_pelicula | pelicula               | id_inventario | id_alquiler |
-    +-------------+------------------------+---------------+-------------+
-    |           1 | ACADEMY DINOSAUR       |             5 |        NULL |
-    |          14 | ALICE FANTASIA         |          NULL |        NULL |
-    |          33 | APOLLO TEEN            |          NULL |        NULL |
-    |          36 | ARGONAUTS TOWN         |          NULL |        NULL |
-    |          38 | ARK RIDGEMONT          |          NULL |        NULL |
-    |          41 | ARSENIC INDEPENDENCE   |          NULL |        NULL |
-    |          87 | BOONDOCK BALLROOM      |          NULL |        NULL |
-    |         108 | BUTCH PANTHER          |          NULL |        NULL |
-    |         128 | CATCH AMISTAD          |          NULL |        NULL |
-    |         144 | CHINATOWN GLADIATOR    |          NULL |        NULL |
-    |         148 | CHOCOLATE DUCK         |          NULL |        NULL |
-    |         171 | COMMANDMENTS EXPRESS   |          NULL |        NULL |
-    |         192 | CROSSING DIVORCE       |          NULL |        NULL |
-    |         195 | CROWDS TELEMARK        |          NULL |        NULL |
-    |         198 | CRYSTAL BREAKING       |          NULL |        NULL |
-    |         217 | DAZED PUNK             |          NULL |        NULL |
-    |         221 | DELIVERANCE MULHOLLAND |          NULL |        NULL |
-    |         318 | FIREHOUSE VIETNAM      |          NULL |        NULL |
-    |         325 | FLOATS GARDEN          |          NULL |        NULL |
-    |         332 | FRANKENSTEIN STRANGER  |          NULL |        NULL |
-    |         359 | GLADIATOR WESTWARD     |          NULL |        NULL |
-    |         386 | GUMP DATE              |          NULL |        NULL |
-    |         404 | HATE HANDICAP          |          NULL |        NULL |
-    |         419 | HOCUS FRIDA            |          NULL |        NULL |
-    |         495 | KENTUCKIAN GIANT       |          NULL |        NULL |
-    |         497 | KILL BROTHERHOOD       |          NULL |        NULL |
-    |         607 | MUPPET MILE            |          NULL |        NULL |
-    |         642 | ORDER BETRAYED         |          NULL |        NULL |
-    |         669 | PEARL DESTINY          |          NULL |        NULL |
-    |         671 | PERDITION FARGO        |          NULL |        NULL |
-    |         701 | PSYCHO SHRUNK          |          NULL |        NULL |
-    |         712 | RAIDERS ANTITRUST      |          NULL |        NULL |
-    |         713 | RAINBOW SHOCK          |          NULL |        NULL |
-    |         742 | ROOF CHAMPION          |          NULL |        NULL |
-    |         801 | SISTER FREDDY          |          NULL |        NULL |
-    |         802 | SKY MIRACLE            |          NULL |        NULL |
-    |         860 | SUICIDES SILENCE       |          NULL |        NULL |
-    |         874 | TADPOLE PARK           |          NULL |        NULL |
-    |         909 | TREASURE COMMAND       |          NULL |        NULL |
-    |         943 | VILLAIN DESPERATE      |          NULL |        NULL |
-    |         950 | VOLUME HOUSE           |          NULL |        NULL |
-    |         954 | WAKE JAWS              |          NULL |        NULL |
-    |         955 | WALLS ARTIST           |          NULL |        NULL |
-    +-------------+------------------------+---------------+-------------+
-    43 rows in set (0,02 sec)
-    
-    ```
+   ```
+   SELECT p.id_pelicula, p.titulo AS pelicula, i.id_inventario, a.id_alquiler
+   FROM pelicula AS p
+   LEFT JOIN inventario AS i ON i.id_pelicula = p.id_pelicula
+   LEFT JOIN alquiler AS a ON a.id_inventario = i.id_inventario
+   WHERE i.id_inventario IS NULL;
+   
+   +-------------+------------------------+---------------+-------------+
+   | id_pelicula | pelicula               | id_inventario | id_alquiler |
+   +-------------+------------------------+---------------+-------------+
+   |          14 | ALICE FANTASIA         |          NULL |        NULL |
+   |          33 | APOLLO TEEN            |          NULL |        NULL |
+   |          36 | ARGONAUTS TOWN         |          NULL |        NULL |
+   |          38 | ARK RIDGEMONT          |          NULL |        NULL |
+   |          41 | ARSENIC INDEPENDENCE   |          NULL |        NULL |
+   |          87 | BOONDOCK BALLROOM      |          NULL |        NULL |
+   |         108 | BUTCH PANTHER          |          NULL |        NULL |
+   |         128 | CATCH AMISTAD          |          NULL |        NULL |
+   |         144 | CHINATOWN GLADIATOR    |          NULL |        NULL |
+   |         148 | CHOCOLATE DUCK         |          NULL |        NULL |
+   |         171 | COMMANDMENTS EXPRESS   |          NULL |        NULL |
+   |         192 | CROSSING DIVORCE       |          NULL |        NULL |
+   |         195 | CROWDS TELEMARK        |          NULL |        NULL |
+   |         198 | CRYSTAL BREAKING       |          NULL |        NULL |
+   |         217 | DAZED PUNK             |          NULL |        NULL |
+   |         221 | DELIVERANCE MULHOLLAND |          NULL |        NULL |
+   |         318 | FIREHOUSE VIETNAM      |          NULL |        NULL |
+   |         325 | FLOATS GARDEN          |          NULL |        NULL |
+   |         332 | FRANKENSTEIN STRANGER  |          NULL |        NULL |
+   |         359 | GLADIATOR WESTWARD     |          NULL |        NULL |
+   |         386 | GUMP DATE              |          NULL |        NULL |
+   |         404 | HATE HANDICAP          |          NULL |        NULL |
+   |         419 | HOCUS FRIDA            |          NULL |        NULL |
+   |         495 | KENTUCKIAN GIANT       |          NULL |        NULL |
+   |         497 | KILL BROTHERHOOD       |          NULL |        NULL |
+   |         607 | MUPPET MILE            |          NULL |        NULL |
+   |         642 | ORDER BETRAYED         |          NULL |        NULL |
+   |         669 | PEARL DESTINY          |          NULL |        NULL |
+   |         671 | PERDITION FARGO        |          NULL |        NULL |
+   |         701 | PSYCHO SHRUNK          |          NULL |        NULL |
+   |         712 | RAIDERS ANTITRUST      |          NULL |        NULL |
+   |         713 | RAINBOW SHOCK          |          NULL |        NULL |
+   |         742 | ROOF CHAMPION          |          NULL |        NULL |
+   |         801 | SISTER FREDDY          |          NULL |        NULL |
+   |         802 | SKY MIRACLE            |          NULL |        NULL |
+   |         860 | SUICIDES SILENCE       |          NULL |        NULL |
+   |         874 | TADPOLE PARK           |          NULL |        NULL |
+   |         909 | TREASURE COMMAND       |          NULL |        NULL |
+   |         943 | VILLAIN DESPERATE      |          NULL |        NULL |
+   |         950 | VOLUME HOUSE           |          NULL |        NULL |
+   |         954 | WAKE JAWS              |          NULL |        NULL |
+   |         955 | WALLS ARTIST           |          NULL |        NULL |
+   +-------------+------------------------+---------------+-------------+
+   43 rows in set (0,02 sec)
+   
+   ```
 
-    
+   
 
-12. Listar los empleados que trabajan en el mismo almacén que el empleado con id_empleado = 1.
+   12. Listar los empleados que trabajan en el mismo almacén que el empleado con id_empleado = 1.
 
-    ```
-    SELECT e.nombre, e.apellidos
-    FROM empleado AS e
-    WHERE e.id_almacen = (
-    	SELECT e.id_almacen
-    	FROM empleado as e
-    	WHERE e.id_empleado = 1
-    );
-    
-    +--------+-----------+
-    | nombre | apellidos |
-    +--------+-----------+
-    | Mike   | Hillyer   |
-    | Jon    | Stephens  |
-    | Pepe   | Spilberg  |
-    +--------+-----------+
-    3 rows in set (0,00 sec)
-    
-    ```
+   ```
+   SELECT e.nombre, e.apellidos
+   FROM empleado AS e
+   WHERE e.id_almacen = (
+   	SELECT e.id_almacen
+   	FROM empleado as e
+   	WHERE e.id_empleado = 1
+   );
+   
+   +--------+-----------+
+   | nombre | apellidos |
+   +--------+-----------+
+   | Mike   | Hillyer   |
+   | Jon    | Stephens  |
+   | Pepe   | Spilberg  |
+   +--------+-----------+
+   3 rows in set (0,00 sec)
+   
+   ```
 
-    13.  Encontrar el nombre de las ciudades que no tienen ningún
+   
+
+   13.  Encontrar el nombre de las ciudades que no tienen ningún
         cliente registrado.
 
 ```
